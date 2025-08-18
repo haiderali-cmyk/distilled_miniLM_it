@@ -27,4 +27,28 @@ source .venv/bin/activate
 
 # install requirements
 pip install -r requirements.txt
+```
+## Main Dependencies
+``` bash
+Python 3.9+
+transformers
+datasets
+spaCy (it_core_news_lg)
+PyYAML
+pandas
+tqdm
+```
+## Start Download Dataset
+```bash
+python pipeline.py --config config.yaml
+```
 
+### Output Files
+
+clean_mc4_it_tiny.csv → raw downloaded dataset (tiny split).
+
+tiny_filtered_data_from_csv.csv → keyword-filtered subset.
+
+zero_shot_crime_only_output.csv → zero-shot classification filtered rows.
+
+clean_mc4_it_sentence_chunks_latest.csv → final processed sentence-level dataset.
