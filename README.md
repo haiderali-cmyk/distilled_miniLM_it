@@ -1,6 +1,6 @@
 # Distilled MiniLM Italian Preprocessing Pipeline
 
-This repository provides a preprocessing pipeline for building a **crime-related Italian text dataset** from Hugging Face datasets.  
+This repository provides a preprocessing pipeline for building a **Italian text dataset** from Hugging Face datasets.  
 It performs four sequential steps:
 
 1. **Download** — fetch a dataset from Hugging Face (`gsarti/clean_mc4_it`) and save it to CSV.  
