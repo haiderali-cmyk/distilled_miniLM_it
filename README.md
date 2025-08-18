@@ -52,3 +52,7 @@ tiny_filtered_data_from_csv.csv → keyword-filtered subset.
 zero_shot_crime_only_output.csv → zero-shot classification filtered rows.
 
 clean_mc4_it_sentence_chunks_latest.csv → final processed sentence-level dataset.
+
+## Download Preprocessed Data
+You can also download preprocessed data by clicking on below link:
+https://drive.google.com/file/d/1qw9k9Rm9w20X0KEpc53MUp9oVGDJ8Vfx/view?usp=drive_link
