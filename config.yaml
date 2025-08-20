@@ -2,7 +2,7 @@
 
 # Absolute base directory where all intermediate and final CSVs are written
 io:
-  base_dir: "/home/niche-3/Documents/haiderali/best_model/Preprocessing/data"
+  base_dir: "_PATH_TO_SAVE_OUTPUT_FILES_"
   download_csv: "data.csv"
   filtered_csv: "data_filtered.csv"
   zero_shot_csv: "data_filtered_zero_shot.csv"
