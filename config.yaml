@@ -1,0 +1,100 @@
+# Configuration for the preprocessing pipeline
+
+# Absolute base directory where all intermediate and final CSVs are written
+io:
+  base_dir: "/home/niche-3/Documents/haiderali/best_model/Preprocessing/data"
+  download_csv: "clean_mc4_it_tiny.csv"
+  filtered_csv: "tiny_filtered_data_from_csv.csv"
+  zero_shot_csv: "zero_shot_crime_only_output.csv"
+  processed_csv: "clean_mc4_it_sentence_chunks_latest.csv"
+  text_column: "text"
+
+# Step 1: Download tiny Italian clean mc4 subset to CSV
+download:
+  hf_dataset: "gsarti/clean_mc4_it"
+  config_name: "tiny"
+  split: "train"
+  streaming: false
+  # Optional: provide an absolute path to a pre-downloaded CSV to skip Hugging Face download
+  # The CSV must contain a column named as in `io.text_column` (default: "text")
+  local_csv: /home/niche-3/Documents/haiderali/best_model/Preprocessing/data/sample_300.csv
+
+# Step 2: Keyword-based prefiltering
+keyword_filter:
+  chunk_size: 100000
+  keywords:
+    - "omicidio"
+    - "assassinio"
+    - "femminicidio"
+    - "aggressione"
+    - "lesioni personali"
+    - "violenza sessuale"
+    - "stupro"
+    - "omicidio colposo"
+    - "tentato omicidio"
+    - "furto"
+    - "rapina"
+    - "scasso"
+    - "borseggio"
+    - "effrazione"
+    - "spaccio di droga"
+    - "traffico di stupefacenti"
+    - "detenzione di droga"
+    - "riciclaggio di denaro"
+    - "corruzione"
+    - "estorsione"
+    - "truffa"
+    - "usura"
+    - "frode fiscale"
+    - "evasione fiscale"
+    - "appropriazione indebita"
+    - "pedofilia"
+    - "abuso su minori"
+    - "pornografia minorile"
+    - "crimine organizzato"
+    - "associazione mafiosa"
+    - "mafia"
+    - "camorra"
+    - "ndrangheta"
+    - "terrorismo"
+    - "attentato terroristico"
+    - "radicalizzazione"
+    - "cellula terroristica"
+    - "sequestro di persona"
+    - "minacce"
+    - "intimidazione"
+    - "latitante"
+    - "indagine penale"
+    - "procedimento penale"
+    - "arresto"
+    - "carcere"
+    - "custodia cautelare"
+
+# Step 3: Zero-shot filtering on GPU
+zero_shot:
+  model_name: "facebook/bart-large-mnli"
+  device: 0  # Prefer cuda:3
+  chunk_size: 1000
+  batch_size: 8
+  labels: ["crimine", "non crimine"]
+  hypothesis_template: "Questo testo riguarda {}."
+
+# Step 4: Sentence chunking with token limits
+process:
+  spacy_model: "it_core_news_lg"
+  tokenizer_name: "intfloat/multilingual-e5-large"
+  chunksize: 100
+  max_tokens: 250
+  min_tokens: 80
+  output_column: "sentence1"
+  auto_download_spacy_model: true
+
+# General controls
+general:
+  force: false  # If true, redo steps even if outputs exist
+  # Ordered list of steps to run when CLI --steps is not provided
+  steps:
+    - download
+    - keyword_filter
+    - zero_shot
+    - process
