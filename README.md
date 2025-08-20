@@ -56,7 +56,8 @@ clean_mc4_it_sentence_chunks_latest.csv → final processed sentence-level datas
 ### Usage on Local Data
 
 To use it on local dataset please add path of .csv file in .config.yaml file.
-After that run python pipeline.pt --config _PATH_TO_CONFIG_FILE_
+
+After that run python pipeline.py --config _PATH_TO_CONFIG_FILE_
 
 ## Download Preprocessed Data
 You can also download preprocessed data by clicking on below link:
