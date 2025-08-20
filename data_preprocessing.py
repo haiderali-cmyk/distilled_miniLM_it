@@ -302,7 +302,7 @@ if __name__ == "__main__":
 	import argparse
 
 	parser = argparse.ArgumentParser(description="Preprocessing pipeline")
-	parser.add_argument("--config", type=str, default="/home/niche-3/Documents/haiderali/best_model/Preprocessing/config.yaml", help="Path to config.yaml")
+	parser.add_argument("--config", type=str, default="./config.yaml", help="Path to config.yaml")
 	parser.add_argument("--steps", type=str, nargs="*", default=None, help="Subset of steps to run; if omitted, uses config general.steps or defaults to all")
 	parser.add_argument("--force", action="store_true", help="Force re-run steps even if outputs exist")
 	parser.add_argument("--log-level", type=str, default="INFO", help="Logging level")
