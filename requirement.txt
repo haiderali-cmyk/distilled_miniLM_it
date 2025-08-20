@@ -1,0 +1,8 @@
+Python 3.9+
+transformers
+datasets
+spaCy (it_core_news_lg)
+PyYAML
+torch
+pandas
+tqdm
