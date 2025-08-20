@@ -2,7 +2,7 @@
 
 # Absolute base directory where all intermediate and final CSVs are written
 io:
-  base_dir: "/home/haiderali/Desktop/Italian Language Embedder/data"
+  base_dir: "PATH_TO_DIR_TO_SAVE_DATA"
   download_csv: "clean_mc4_it_tiny.csv"
   filtered_csv: "tiny_filtered_data_from_csv.csv"
   zero_shot_csv: "zero_shot_crime_only_output.csv"
