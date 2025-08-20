@@ -279,7 +279,7 @@ if __name__ == "__main__":
 	import argparse
 
 	parser = argparse.ArgumentParser(description="Preprocessing pipeline")
-	parser.add_argument("--config", type=str, default="/home/haiderali/Desktop/Italian Language Embedder/config.yaml", help="Path to config.yaml")
+	parser.add_argument("--config", type=str, default="./config.yaml", help="Path to config.yaml")
 	parser.add_argument("--steps", type=str, nargs="*", default=["download", "keyword_filter", "zero_shot", "process"], help="Subset of steps to run: download keyword_filter zero_shot process")
 	parser.add_argument("--force", action="store_true", help="Force re-run steps even if outputs exist")
 	parser.add_argument("--log-level", type=str, default="INFO", help="Logging level")
