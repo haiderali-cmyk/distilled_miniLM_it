@@ -66,8 +66,18 @@ Developers can easily skip any step by just removing that step from steps in con
     - zero_shot
     - process
 ```
+Developers can either download the dataset from Hugging Face or use a locally downloaded copy. To use a downloaded dataset, simply add the dataset path to the local_csv key.
 
-After that run python pipeline.py --config _PATH_TO_CONFIG_FILE_
+```bash
+download:
+  hf_dataset: "gsarti/clean_mc4_it"
+  config_name: "tiny"
+  split: "train"
+  streaming: false
+  # Optional: provide an absolute path to a pre-downloaded CSV to skip Hugging Face download
+  # The CSV must contain a column named as in `io.text_column` (default: "text")
+  local_csv: None # Specify path to the .csv file. If not path is specified than data will be downloaded from hugging face.
+```
 
 ## Download Preprocessed Data
 You can also download preprocessed data by clicking on below link:
