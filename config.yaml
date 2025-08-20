@@ -3,10 +3,10 @@
 # Absolute base directory where all intermediate and final CSVs are written
 io:
   base_dir: "/home/niche-3/Documents/haiderali/best_model/Preprocessing/data"
-  download_csv: "clean_mc4_it_tiny.csv"
-  filtered_csv: "tiny_filtered_data_from_csv.csv"
-  zero_shot_csv: "zero_shot_crime_only_output.csv"
-  processed_csv: "clean_mc4_it_sentence_chunks_latest.csv"
+  download_csv: "data.csv"
+  filtered_csv: "data_filtered.csv"
+  zero_shot_csv: "data_filtered_zero_shot.csv"
+  processed_csv: "data_filtered_zero_shot_chunk.csv"
   text_column: "text"
 
 # Step 1: Download tiny Italian clean mc4 subset to CSV
