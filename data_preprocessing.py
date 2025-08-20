@@ -14,6 +14,7 @@ from transformers import pipeline as hf_pipeline, AutoTokenizer
 
 import spacy
 from spacy.cli import download as spacy_download
+import shutil
 
 
 # ------------------------------
@@ -47,14 +48,37 @@ def step_download(cfg: Dict[str, Any], out_csv: str) -> None:
 		logging.info(f"Download output exists at {out_csv}; skipping.")
 		return
 
-	logging.info("Downloading the dataset (this may take a while)...")
+	# If a local CSV is provided, use it directly instead of downloading
 	ds_cfg = cfg["download"]
+	local_csv = ds_cfg.get("local_csv")
+	if local_csv:
+		local_csv_path = Path(local_csv).expanduser().resolve()
+		if not local_csv_path.exists():
+			raise FileNotFoundError(f"Configured local CSV not found: {local_csv_path}")
+		# Validate required text column exists
+		io_text_col = cfg["io"]["text_column"]
+		cols = pd.read_csv(str(local_csv_path), nrows=0).columns.tolist()
+		if io_text_col not in cols:
+			raise ValueError(f"Local CSV missing required text column '{io_text_col}'. Columns found: {cols}")
+		# Copy (or skip if already at destination)
+		target_path = Path(out_csv).expanduser().resolve()
+		target_path.parent.mkdir(parents=True, exist_ok=True)
+		if local_csv_path == target_path:
+			logging.info(f"Local CSV already at target location: {target_path}. Skipping copy.")
+		else:
+			shutil.copy2(str(local_csv_path), str(target_path))
+			logging.info(f"Copied local CSV to: {target_path}")
+		logging.info("Download step completed using local CSV.")
+		return
+
+	# Fallback to downloading from Hugging Face if no local CSV provided
+	logging.info("Downloading the dataset (this may take a while)...")
 	dataset = load_dataset(
 		ds_cfg["hf_dataset"],
 		ds_cfg.get("config_name", None),
 		split=ds_cfg.get("split", "train"),
 		streaming=bool(ds_cfg.get("streaming", False))
-	)[:300]
+	)
 
 	total_rows = len(dataset)
 	logging.info(f"Loaded {total_rows} examples from '{ds_cfg.get('config_name', 'default')}' split.")
@@ -257,10 +281,9 @@ def step_process(cfg: Dict[str, Any], in_csv: str, out_csv: str) -> None:
 # ------------------------------
 
 def run_pipeline(config_path: str, steps: List[str] = None) -> None:
-	if steps is None:
-		steps = ["download", "keyword_filter", "zero_shot", "process"]
-
 	cfg = load_config(config_path)
+	if steps is None or len(steps) == 0:
+		steps = cfg.get("general", {}).get("steps") or ["download", "keyword_filter", "zero_shot", "process"]
 	paths = build_paths(cfg)
 
 	logging.info("Using outputs directory: %s", Path(cfg["io"]["base_dir"]))
@@ -280,7 +303,7 @@ if __name__ == "__main__":
 
 	parser = argparse.ArgumentParser(description="Preprocessing pipeline")
 	parser.add_argument("--config", type=str, default="./config.yaml", help="Path to config.yaml")
-	parser.add_argument("--steps", type=str, nargs="*", default=["download", "keyword_filter", "zero_shot", "process"], help="Subset of steps to run: download keyword_filter zero_shot process")
+	parser.add_argument("--steps", type=str, nargs="*", default=None, help="Subset of steps to run; if omitted, uses config general.steps or defaults to all")
 	parser.add_argument("--force", action="store_true", help="Force re-run steps even if outputs exist")
 	parser.add_argument("--log-level", type=str, default="INFO", help="Logging level")
 
@@ -295,14 +318,15 @@ if __name__ == "__main__":
 		# Run with modified cfg without writing back
 		# We call internal functions to avoid re-reading from disk
 		paths = build_paths(cfg)
-		logging.info("Force mode enabled. Re-running steps: %s", args.steps)
-		if "download" in args.steps:
+		steps_to_run = args.steps or cfg.get("general", {}).get("steps") or ["download", "keyword_filter", "zero_shot", "process"]
+		logging.info("Force mode enabled. Re-running steps: %s", steps_to_run)
+		if "download" in steps_to_run:
 			step_download(cfg, paths["download_csv"])
-		if "keyword_filter" in args.steps:
+		if "keyword_filter" in steps_to_run:
 			step_keyword_filter(cfg, paths["download_csv"], paths["filtered_csv"])
-		if "zero_shot" in args.steps:
+		if "zero_shot" in steps_to_run:
 			step_zero_shot(cfg, paths["filtered_csv"], paths["zero_shot_csv"])
-		if "process" in args.steps:
+		if "process" in steps_to_run:
 			step_process(cfg, paths["zero_shot_csv"], paths["processed_csv"])
 	else:
 		run_pipeline(args.config, args.steps)
