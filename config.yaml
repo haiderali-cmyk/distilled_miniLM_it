@@ -2,7 +2,7 @@
 
 # Absolute base directory where all intermediate and final CSVs are written
 io:
-  base_dir: "PATH_TO_DIR_TO_SAVE_DATA"
+  base_dir: "__PATH__TO__SAVE__DIR"
   download_csv: "clean_mc4_it_tiny.csv"
   filtered_csv: "tiny_filtered_data_from_csv.csv"
   zero_shot_csv: "zero_shot_crime_only_output.csv"
@@ -14,7 +14,10 @@ download:
   hf_dataset: "gsarti/clean_mc4_it"
   config_name: "tiny"
   split: "train"
-  streaming: true
+  streaming: false
+  # Optional: provide an absolute path to a pre-downloaded CSV to skip Hugging Face download
+  # The CSV must contain a column named as in `io.text_column` (default: "text")
+  local_csv: None # Specify path to the .csv file. If not path is specified than data will be downloaded from hugging face.
 
 # Step 2: Keyword-based prefiltering
 keyword_filter:
@@ -89,3 +92,9 @@ process:
 # General controls
 general:
   force: false  # If true, redo steps even if outputs exist
+  # Ordered list of steps to run when CLI --steps is not provided
+  steps:
+    - download
+    - keyword_filter
+    - zero_shot
+    - process
