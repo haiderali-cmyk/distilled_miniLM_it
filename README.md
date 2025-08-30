@@ -18,7 +18,7 @@ The resulting CSV can then be used for downstream Italian NLP tasks such as clas
 Clone the repository and install dependencies:
 
 ```bash
-git clone git@github.com:haiderali-cmyk/distilled_miniLM_it.git
+git clone https://github.com/haiderali-cmyk/distilled_miniLM_it.git
 cd distilled_miniLM_it
 
 # create virtual environment (optional but recommended)
