@@ -14,8 +14,9 @@ The resulting CSV can then be used for downstream Italian NLP tasks such as clas
 ---
 
 ## ⚙️ Installation
-
 Clone the repository and install dependencies:
+
+Please make sure you have Python 3.12.2 version.
 
 ```bash
 git clone https://github.com/haiderali-cmyk/distilled_miniLM_it.git
