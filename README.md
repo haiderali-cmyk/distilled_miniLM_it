@@ -56,7 +56,8 @@ data_filtered_zero_shot_chunk.csv → final processed chunk-level dataset.
 
 To use it on local dataset please add path of .csv file in .config.yaml file.
 
-### Configuration
+## Configuration
+### Using local data
 Developers can easily use their own data for all processing steps. For this, they should provide
 path of .csv file.
 ```bash
@@ -76,7 +77,7 @@ local_csv: false
 ```
 So, if local_csv value is set to path script will use local_csv from the specified path. In case local_csv value is set to false, it will download mc4-it data from hugging face.
 
-### Configuration
+### Preprocessing Steps
 Developers can easily skip any step by just removing that step from steps in config.yaml file
 ```bash
   steps:
