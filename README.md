@@ -52,11 +52,7 @@ data_filtered_zero_shot.csv → zero-shot classification filtered rows.
 
 data_filtered_zero_shot_chunk.csv → final processed chunk-level dataset.
 
-### Usage on Local Data
-
-To use it on local dataset please add path of .csv file in .config.yaml file.
-
-## Configuration
+## Configurations
 
 ### Preprocessing Steps
 Developers can easily skip any step by just removing that step from steps in config.yaml file
