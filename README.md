@@ -39,7 +39,7 @@ tqdm
 ```
 ## Start Download Dataset
 ```bash
-python pipeline.py --config config.yaml
+python data_preprocessing.py --config config.yaml
 ```
 
 ### Output Files
