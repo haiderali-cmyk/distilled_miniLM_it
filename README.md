@@ -53,6 +53,16 @@ data_filtered_zero_shot.csv → zero-shot classification filtered rows.
 
 data_filtered_zero_shot_chunk.csv → final processed chunk-level dataset.
 
+```bash
+io:
+  base_dir: "_PATH_TO_SAVE_OUTPUT_FILES_"
+  download_csv: "data.csv"
+  filtered_csv: "data_filtered.csv"
+  zero_shot_csv: "data_filtered_zero_shot.csv"
+  processed_csv: "data_filtered_zero_shot_chunk.csv"
+  text_column: "text" 
+```
+
 ## Configurations
 
 ### Preprocessing Steps
