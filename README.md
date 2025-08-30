@@ -30,10 +30,9 @@ pip install -r requirements.txt
 ```
 ## Main Dependencies
 ``` bash
-Python 3.9+
 transformers
 datasets
-spaCy (it_core_news_lg)
+spaCy
 PyYAML
 pandas
 tqdm
