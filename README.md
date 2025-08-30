@@ -165,7 +165,7 @@ zero_shot:
 ```
 
 ### Sentence Chunking
-We use spaCy for sentence splitting and a Hugging Face tokenizer for token counts. Be consistent with the chunk_size key name (used above).
+We use spaCy for sentence splitting and a Hugging Face tokenizer for token counts.
 ```bash
 process:
   spacy_model: "it_core_news_lg"
