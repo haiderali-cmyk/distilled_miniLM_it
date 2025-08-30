@@ -1,9 +1,9 @@
 # Distilled MiniLM Italian Preprocessing Pipeline
 
-This repository provides a preprocessing pipeline for building a **Italian text dataset** from Hugging Face datasets.  
+This repository provides a preprocessing pipeline for building an **Italian text dataset** from Hugging Face datasets or load the data from local directory.  
 It performs four sequential steps:
 
-1. **Download** — fetch a dataset from Hugging Face (`gsarti/clean_mc4_it`) and save it to CSV.  
+1. **Download** — fetch a dataset from Hugging Face (`gsarti/clean_mc4_it`) and save it to CSV. Or use custom/local dataset from local directory.  
 2. **Keyword Filter** — filter rows by Italian crime-related keywords.  
 3. **Zero-Shot Classification** — further filter using a transformer-based zero-shot classifier (`facebook/bart-large-mnli`).  
 4. **Sentence Chunking** — split long texts into sentences with token length constraints using spaCy + HuggingFace tokenizer.
@@ -29,13 +29,14 @@ source .venv/bin/activate
 pip install -r requirements.txt
 ```
 ## Main Dependencies
+Please refer to requirement.txt file for complete list of dependencies.
 ``` bash
-transformers
+transformers==4.56.0
 datasets==2.21.0
-spaCy
-PyYAML
-pandas
-tqdm
+spacy==3.8.7
+PyYAML==6.0.2
+pandas==2.3.2
+tqdm==4.67.1
 ```
 ## Start Download Dataset
 ```bash
@@ -55,7 +56,7 @@ data_filtered_zero_shot_chunk.csv → final processed chunk-level dataset.
 ## Configurations
 
 ### Preprocessing Steps
-Developers can easily skip any step by just removing that step from steps in config.yaml file. Except download, it's important for loading data.
+You can change which steps to run by editing steps. **Do not remove **download. Example:
 ```bash
   steps:
     - download # Do not remove this it's important for loading data
@@ -65,8 +66,7 @@ Developers can easily skip any step by just removing that step from steps in con
 ```
 
 ### Using local data
-Developers can easily use their own data for all processing steps. For this, they should provide
-path of .csv file.
+Either download from Hugging Face or point to a local CSV. The CSV must contain the column specified by io.text_column (default: text).
 ```bash
 download:
   hf_dataset: "gsarti/clean_mc4_it"
@@ -80,15 +80,15 @@ download:
 
 ### Using mc4-it data
 
-Please note: if developer want to download the dataset they should set the value of local_csv to false. In that case mc4 italian data will be downloaded.
+Please note: if you  want to download the dataset you should set the value of local_csv to false. In that case mc4 italian data will be downloaded.
 ```bash
 local_csv: false
 ```
 
-So, if local_csv value is set to path script will use local_csv from the specified path. In case local_csv value is set to false, it will download mc4-it data from hugging face.
+If local_csv is a path, the pipeline uses that CSV and skips huggingface download. If local_csv is false, the pipeline downloads the dataset from Hugging Face.
 
 ### Keywords Filtering
-Developers can update or add new keywords in .config.yml file. For that please refer to keyword_filter step in .config.yml file. By default chunk_size is set to 100,000 which means script will process 100,000 chunks at a time.
+Update keywords here. chunk_size controls how many rows are processed per batch.
 ```bash
 keyword_filter:
   chunk_size: 100000
@@ -142,8 +142,7 @@ keyword_filter:
 ```
 
 ### Zero-shot classification
-For zero-shot classification configuration please refer to step 3 (i.e. zero_shot). By default cuda:device is set to 0. Developer can easily configure the settings
-in config.yml file. 
+Configure model, device and labels. device can be 0 (GPU 0), -1 (CPU), or similar depending on your environment.
 ```bash
 zero_shot:
   model_name: "facebook/bart-large-mnli"
@@ -155,9 +154,7 @@ zero_shot:
 ```
 
 ### Sentence Chunking
-For sentence chunking please refer to process in config.yml file. We use 'multilingual-e5-large' model for tokenization because of it's best performance. We set
-minimum and maximum token limit to make sure we don't use too large or too small chunks for distillation process.
-
+We use spaCy for sentence splitting and a Hugging Face tokenizer for token counts. Be consistent with the chunk_size key name (used above).
 ```bash
 process:
   spacy_model: "it_core_news_lg"
@@ -168,17 +165,16 @@ process:
   output_column: "sentence1"
   auto_download_spacy_model: true
 ```
+Note: auto_download_spacy_model: true can trigger python -m spacy download it_core_news_lg if not present — ensure you have the necessary permissions.
 
-### Redo steps or Continue
-In case data preprocessing is stopped in any step, developer can easily continue from the last step. For that, developer need to ensure that previous step files have been saved properly. In case, developers want to redo every step again, they can easily set force to true.
+### Continue / redo steps
+If the pipeline stops, you can continue from the last successful step (the code will pick up existing outputs). To force re-running steps and overwrite outputs:
 ```bash
 general:
-  force: false  # If true, redo steps even if outputs exist
-  # Ordered list of steps to run when CLI --steps is not provided
+  force: false  # set to true to redo steps even if outputs already exist
 ```
 
 
-
 ## Download Preprocessed Data
-You can also download preprocessed data by clicking on below link:
+Preprocessed data (if you wish to use it directly):
 https://drive.google.com/file/d/1qw9k9Rm9w20X0KEpc53MUp9oVGDJ8Vfx/view?usp=drive_link
