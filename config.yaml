@@ -17,7 +17,7 @@ download:
   streaming: false
   # Optional: provide an absolute path to a pre-downloaded CSV to skip Hugging Face download
   # The CSV must contain a column named as in `io.text_column` (default: "text")
-  local_csv: /home/niche-3/Documents/haiderali/best_model/Preprocessing/data/sample_300.csv
+  local_csv: false
 
 # Step 2: Keyword-based prefiltering
 keyword_filter:
