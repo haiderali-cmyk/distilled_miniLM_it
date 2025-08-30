@@ -75,7 +75,6 @@ download:
   streaming: false
   # Optional: provide an absolute path to a pre-downloaded CSV to skip downloading step
   # The CSV must contain a column named as in `io.text_column` (default: "text")
-  # local_csv: /home/niche-3/Documents/haiderali/best_model/Preprocessing/data/sample_300.csv
   local_csv: PATH_TO_THE_CSV
 ```
 
