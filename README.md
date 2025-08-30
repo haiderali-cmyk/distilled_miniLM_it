@@ -55,10 +55,10 @@ data_filtered_zero_shot_chunk.csv → final processed chunk-level dataset.
 ## Configurations
 
 ### Preprocessing Steps
-Developers can easily skip any step by just removing that step from steps in config.yaml file
+Developers can easily skip any step by just removing that step from steps in config.yaml file. Except download, it's important for loading data.
 ```bash
   steps:
-    - download
+    - download # Do not remove this it's important for loading data
     - keyword_filter
     - zero_shot
     - process
