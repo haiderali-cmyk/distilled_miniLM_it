@@ -44,17 +44,37 @@ python pipeline.py --config config.yaml
 
 ### Output Files
 
-clean_mc4_it_tiny.csv → raw downloaded dataset (tiny split).
+data.csv → raw downloaded dataset (tiny split).
 
-tiny_filtered_data_from_csv.csv → keyword-filtered subset.
+data_filtered.csv → keyword-filtered subset.
 
-zero_shot_crime_only_output.csv → zero-shot classification filtered rows.
+data_filtered_zero_shot.csv → zero-shot classification filtered rows.
 
-clean_mc4_it_sentence_chunks_latest.csv → final processed sentence-level dataset.
+data_filtered_zero_shot_chunk.csv → final processed chunk-level dataset.
 
 ### Usage on Local Data
 
 To use it on local dataset please add path of .csv file in .config.yaml file.
+
+### Configuration
+Developers can easily use their own data for all processing steps. For this, they should provide
+path of .csv file.
+```bash
+download:
+  hf_dataset: "gsarti/clean_mc4_it"
+  config_name: "tiny"
+  split: "train"
+  streaming: false
+  # Optional: provide an absolute path to a pre-downloaded CSV to skip downloading step
+  # The CSV must contain a column named as in `io.text_column` (default: "text")
+  # local_csv: /home/niche-3/Documents/haiderali/best_model/Preprocessing/data/sample_300.csv
+  local_csv: PATH_TO_THE_CSV
+```
+Please note: if developer want to download the dataset they should set the value of local_csv to false. In that case mc4 italian data will be downloaded.
+```bash
+local_csv: false
+```
+So, if local_csv value is set to path script will use local_csv from the specified path. In case local_csv value is set to false, it will download mc4-it data from hugging face.
 
 ### Configuration
 Developers can easily skip any step by just removing that step from steps in config.yaml file
