@@ -59,7 +59,7 @@ data_filtered_zero_shot_chunk.csv → final processed chunk-level dataset.
 You can change which steps to run by editing steps. **Do not remove **download. Example:
 ```bash
   steps:
-    - download # Do not remove this it's important for loading data
+    - download # Do not remove it's important for loading data
     - keyword_filter
     - zero_shot
     - process
