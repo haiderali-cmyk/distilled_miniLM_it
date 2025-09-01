@@ -17,7 +17,7 @@ download:
   streaming: false
   # Optional: provide an absolute path to a pre-downloaded CSV to skip Hugging Face download
   # The CSV must contain a column named as in `io.text_column` (default: "text")
-  local_csv: false
+  local_csv: /home/haiderali/Desktop/ncai_project/distilled_miniLM_it/data.csv
 
 # Step 2: Keyword-based prefiltering
 keyword_filter:
@@ -73,7 +73,7 @@ keyword_filter:
 # Step 3: Zero-shot filtering on GPU
 zero_shot:
   model_name: "facebook/bart-large-mnli"
-  device: 0  # Prefer cuda:3
+  device: 0  
   chunk_size: 1000
   batch_size: 8
   labels: ["crimine", "non crimine"]
@@ -91,10 +91,10 @@ process:
 
 # General controls
 general:
-  force: false  # If true, redo steps even if outputs exist
+  force: false  # If true, redo steps even if outputs files exist
   # Ordered list of steps to run when CLI --steps is not provided
   steps:
-    - download
-    - keyword_filter
-    - zero_shot
-    - process
+    download: true
+    keyword_filter: true
+    zero_shot: true
+    process: true
