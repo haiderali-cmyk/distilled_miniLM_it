@@ -28,18 +28,19 @@ source .venv/bin/activate
 
 # install requirements
 pip install -r requirement.txt
+
+Optional in case you get any error during spacy download
+# Upgrade pip, setuptools, wheel
+pip install --upgrade pip setuptools wheel
+
+# Remove any corrupted cached wheel
+pip cache purge
+
 ```
 ## Main Dependencies
 Please refer to requirement.txt file for complete list of dependencies.
-``` bash
-transformers==4.56.0
-datasets==2.21.0
-spacy==3.8.7
-PyYAML==6.0.2
-pandas==2.3.2
-tqdm==4.67.1
-```
-## Start Download Dataset
+
+## Start Data Preprocessing Dataset
 ```bash
 python data_preprocessing.py --config config.yaml
 ```
@@ -67,13 +68,13 @@ io:
 ## Configurations
 
 ### Preprocessing Steps
-You can change which steps to run by editing steps. **Do not remove **download. Example:
+You can change which steps to run by editing steps. **Do not flag false **download. Example:
 ```bash
   steps:
-    - download # Do not remove it's important for loading data
-    - keyword_filter
-    - zero_shot
-    - process
+    download: true # Make sure it's always true
+    keyword_filter: true
+    zero_shot: true
+    process: true
 ```
 
 ### Using local data
