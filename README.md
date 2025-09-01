@@ -29,7 +29,8 @@ source .venv/bin/activate
 # install requirements
 pip install -r requirement.txt
 
-Optional in case you get any error during spacy download
+# Optional in case you get any error during spacy download
+
 # Upgrade pip, setuptools, wheel
 pip install --upgrade pip setuptools wheel
 
