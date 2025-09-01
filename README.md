@@ -79,7 +79,7 @@ You can change which steps to run by editing steps. **Do not flag false **downlo
 ```
 
 ### Using local data
-Either download from Hugging Face or point to a local CSV. The CSV must contain the column specified by io.text_column (default: text).
+Either download from Hugging Face or point to a local CSV. The CSV must contain the column specified by io.text_column (default: text). For reference please check template.csv file. Script just need text column other columns are not needed (ref. template.csv)
 ```bash
 download:
   hf_dataset: "gsarti/clean_mc4_it"
